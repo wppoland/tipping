@@ -109,48 +109,11 @@ final class Options
     }
 
     /**
-     * The default selection: an integer preset index, or null for "no tip".
-     */
-    public function defaultSelectionIndex(): ?int
-    {
-        $value = (string) ($this->all()['default_selection'] ?? 'none');
-
-        if ('' === $value || 'none' === $value) {
-            return null;
-        }
-
-        $index   = (int) $value;
-        $presets = $this->presets();
-
-        return isset($presets[$index]) ? $index : null;
-    }
-
-    public function allowCustom(): bool
-    {
-        return (bool) ($this->all()['allow_custom'] ?? false);
-    }
-
-    public function showOnCart(): bool
-    {
-        return (bool) ($this->all()['show_on_cart'] ?? false);
-    }
-
-    public function showOnCheckout(): bool
-    {
-        return (bool) ($this->all()['show_on_checkout'] ?? false);
-    }
-
-    public function isTaxable(): bool
-    {
-        return (bool) ($this->all()['taxable'] ?? false);
-    }
-
-    /**
-     * True when the control has something to render: enabled, and at least one
-     * preset or a custom-amount field available.
+     * True when the control has something to render: enabled and with at least
+     * one preset.
      */
     public function isUsable(): bool
     {
-        return $this->isEnabled() && ($this->presets() !== [] || $this->allowCustom());
+        return $this->isEnabled() && $this->presets() !== [];
     }
 }

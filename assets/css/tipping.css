@@ -1,5 +1,5 @@
 /**
- * Tipping — customer-facing control (cart + checkout).
+ * Tipping — customer-facing control (checkout).
  *
  * Modern, theme-friendly styling driven by custom properties so themes can
  * override colours and radius. Transitions are guarded by prefers-reduced-motion.
@@ -71,35 +71,6 @@
 	color: var(--tipping-accent-contrast);
 	background: var(--tipping-accent);
 	border-color: var(--tipping-accent);
-}
-
-.tipping__custom {
-	margin-top: 0.75rem;
-}
-
-.tipping__custom[hidden] {
-	display: none;
-}
-
-.tipping__custom-label {
-	display: block;
-	margin-bottom: 0.25rem;
-	font-size: 0.8125rem;
-	font-weight: 600;
-}
-
-.tipping__custom-input {
-	width: 100%;
-	max-width: 12rem;
-	padding: 0.5rem 0.625rem;
-	font: inherit;
-	border: 1px solid var(--tipping-border);
-	border-radius: 8px;
-}
-
-.tipping__custom-input:focus-visible {
-	outline: 2px solid var(--tipping-accent);
-	outline-offset: 1px;
 }
 
 .tipping__status {

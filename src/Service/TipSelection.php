@@ -14,7 +14,6 @@ defined('ABSPATH') || exit;
  *
  * A selection is one of:
  *  - a preset index (0-based) into {@see Options::presets()};
- *  - a custom amount (when custom amounts are allowed);
  *  - none (no tip).
  *
  * The resolved amount is always recomputed from the current cart, so a
@@ -33,7 +32,7 @@ final class TipSelection
      * validating it against the current settings. Unknown / disabled choices
      * collapse to "no tip".
      *
-     * @param array{mode?: string, preset?: int|string, amount?: int|float|string} $choice
+     * @param array{mode?: string, preset?: int|string} $choice
      */
     public function store(array $choice): void
     {
@@ -47,9 +46,9 @@ final class TipSelection
     }
 
     /**
-     * The stored choice, or the configured default when nothing is set yet.
+     * The stored choice, defaulting to "no tip" so tipping is fully opt-in.
      *
-     * @return array{mode: string, preset: int, amount: float}
+     * @return array{mode: string, preset: int}
      */
     public function current(): array
     {
@@ -60,13 +59,7 @@ final class TipSelection
             }
         }
 
-        $default = $this->options->defaultSelectionIndex();
-
-        if (null !== $default) {
-            return ['mode' => 'preset', 'preset' => $default, 'amount' => 0.0];
-        }
-
-        return ['mode' => 'none', 'preset' => 0, 'amount' => 0.0];
+        return ['mode' => 'none', 'preset' => 0];
     }
 
     /**
@@ -75,14 +68,6 @@ final class TipSelection
      */
     public function resolveAmount(): float
     {
-        return $this->filterAmount($this->computeAmount());
-    }
-
-    /**
-     * The raw resolved amount before any extension adjusts it.
-     */
-    private function computeAmount(): float
-    {
         if (! $this->options->isUsable()) {
             return 0.0;
         }
@@ -90,11 +75,7 @@ final class TipSelection
         $choice  = $this->current();
         $presets = $this->options->presets();
 
-        if ('preset' === $choice['mode']) {
-            if (! isset($presets[$choice['preset']])) {
-                return 0.0;
-            }
-
+        if ('preset' === $choice['mode'] && isset($presets[$choice['preset']])) {
             $value = $presets[$choice['preset']];
 
             if ($this->options->isPercent()) {
@@ -104,46 +85,15 @@ final class TipSelection
             return $this->roundAmount($value);
         }
 
-        if ('custom' === $choice['mode'] && $this->options->allowCustom()) {
-            return $this->roundAmount($choice['amount']);
-        }
-
         return 0.0;
     }
 
     /**
-     * Let extensions adjust the resolved tip amount (e.g. PRO round-up). The
-     * result is clamped to a non-negative, currency-rounded value.
-     *
-     * @param float $amount The computed amount.
-     */
-    private function filterAmount(float $amount): float
-    {
-        /**
-         * Filters the resolved tip amount before it is applied as a cart fee.
-         *
-         * @param float        $amount  The computed tip amount.
-         * @param TipSelection $service The selection service.
-         */
-        $filtered = (float) apply_filters('tipping/fee_amount', $amount, $this);
-
-        return $this->roundAmount(max(0.0, $filtered));
-    }
-
-    /**
-     * The cart base (pre-tip subtotal), exposed for extensions that need it.
-     */
-    public function cartSubtotal(): float
-    {
-        return $this->cartBase();
-    }
-
-    /**
-     * Normalise a raw choice array into the canonical shape, clamping values and
-     * rejecting anything that does not match the current settings.
+     * Normalise a raw choice array into the canonical shape, rejecting anything
+     * that does not match the current settings.
      *
      * @param array<string, mixed> $choice
-     * @return array{mode: string, preset: int, amount: float}
+     * @return array{mode: string, preset: int}
      */
     private function normalize(array $choice): array
     {
@@ -154,29 +104,16 @@ final class TipSelection
             $presets = $this->options->presets();
 
             if ($preset >= 0 && isset($presets[$preset])) {
-                return ['mode' => 'preset', 'preset' => $preset, 'amount' => 0.0];
+                return ['mode' => 'preset', 'preset' => $preset];
             }
-
-            return ['mode' => 'none', 'preset' => 0, 'amount' => 0.0];
         }
 
-        if ('custom' === $mode && $this->options->allowCustom()) {
-            $amount = isset($choice['amount']) ? (float) wc_format_decimal((string) $choice['amount']) : 0.0;
-            $amount = max(0.0, $amount);
-
-            if ($amount <= 0.0) {
-                return ['mode' => 'none', 'preset' => 0, 'amount' => 0.0];
-            }
-
-            return ['mode' => 'custom', 'preset' => 0, 'amount' => $amount];
-        }
-
-        return ['mode' => 'none', 'preset' => 0, 'amount' => 0.0];
+        return ['mode' => 'none', 'preset' => 0];
     }
 
     /**
-     * The cart base used for percentage tips: the cart contents total plus any
-     * discounts already applied (i.e. the pre-tip subtotal). Falls back to 0.
+     * The cart base used for percentage tips: the pre-tip items subtotal,
+     * tax-exclusive. Falls back to 0.
      */
     private function cartBase(): float
     {
@@ -186,7 +123,6 @@ final class TipSelection
             return 0.0;
         }
 
-        // Subtotal of items (excluding the tip fee itself), tax-exclusive.
         return (float) $cart->get_subtotal();
     }
 

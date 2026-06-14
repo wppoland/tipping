@@ -55,7 +55,8 @@ final class TipFee implements HasHooks
             return;
         }
 
-        $cart->add_fee($this->feeLabel(), $amount, $this->options->isTaxable());
+        // Tips and donations are not taxed.
+        $cart->add_fee($this->feeLabel(), $amount, false);
     }
 
     /**
@@ -73,10 +74,6 @@ final class TipFee implements HasHooks
 
         if ('preset' === $mode && isset($_POST['preset'])) {
             $choice['preset'] = absint(wp_unslash((string) $_POST['preset']));
-        }
-
-        if ('custom' === $mode && isset($_POST['amount'])) {
-            $choice['amount'] = wc_format_decimal(sanitize_text_field(wp_unslash((string) $_POST['amount'])));
         }
 
         $this->selection->store($choice);

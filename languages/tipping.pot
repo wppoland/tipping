@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-14T19:55:17+00:00\n"
+"POT-Creation-Date: 2026-06-14T21:49:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: tipping\n"
@@ -39,161 +39,92 @@ msgstr ""
 msgid "https://plogins.com/"
 msgstr ""
 
-#: src/Admin/Settings.php:65
-#: src/Admin/Settings.php:66
+#: src/Admin/Settings.php:52
+#: src/Admin/Settings.php:53
 msgid "Tipping"
 msgstr ""
 
-#: src/Admin/Settings.php:105
+#: src/Admin/Settings.php:92
 msgid "Let customers add a tip or donation at checkout"
 msgstr ""
 
-#: src/Admin/Settings.php:107
-msgid "A friendly, optional tip control on the cart and checkout. Pick preset amounts (fixed or a percentage of the order), optionally allow a custom amount, and the tip is added to the order totals as a fee. Updates live as the customer chooses."
+#: src/Admin/Settings.php:94
+msgid "A friendly, optional tip control on the checkout. Pick preset amounts — fixed or a percentage of the order — and the tip is added to the order totals as a fee. Updates live as the customer chooses."
 msgstr ""
 
-#: src/Admin/Settings.php:115
+#: src/Admin/Settings.php:102
 msgid "General"
 msgstr ""
 
-#: src/Admin/Settings.php:120
+#: src/Admin/Settings.php:106
 msgid "Enable tipping"
 msgstr ""
 
-#: src/Admin/Settings.php:121
-msgid "The master switch. When off, the control never renders and no assets load on the storefront."
+#: src/Admin/Settings.php:110
+msgid "Show the tip control on the checkout."
 msgstr ""
 
-#: src/Admin/Settings.php:126
-msgid "Show the tip control on the storefront."
+#: src/Admin/Settings.php:112
+msgid "When off, the control never renders and no assets load on the storefront."
 msgstr ""
 
-#: src/Admin/Settings.php:132
+#: src/Admin/Settings.php:117
 msgid "Label"
 msgstr ""
 
-#: src/Admin/Settings.php:133
-msgid "The heading shown above the tip buttons, e.g. “Add a tip” or “Support our shelter”."
-msgstr ""
-
-#: src/Admin/Settings.php:136
+#: src/Admin/Settings.php:120
 #: src/Settings/Options.php:64
 msgid "Add a tip"
 msgstr ""
 
-#: src/Admin/Settings.php:141
+#: src/Admin/Settings.php:121
+msgid "The heading shown above the tip buttons, e.g. “Add a tip” or “Support our shelter”."
+msgstr ""
+
+#: src/Admin/Settings.php:126
 msgid "Description"
 msgstr ""
 
-#: src/Admin/Settings.php:142
-msgid "Optional supporting text shown under the label. Keep it short and reassuring — tipping is always optional."
+#: src/Admin/Settings.php:130
+msgid "Optional supporting text shown under the label. Tipping is always optional for the customer."
 msgstr ""
 
-#: src/Admin/Settings.php:153
+#: src/Admin/Settings.php:138
 msgid "Presets"
 msgstr ""
 
-#: src/Admin/Settings.php:158
+#: src/Admin/Settings.php:143
 msgid "Preset type"
 msgstr ""
 
-#: src/Admin/Settings.php:159
-msgid "Percentage presets scale with the order total (5% of the subtotal). Fixed presets are flat amounts in your store currency."
-msgstr ""
-
-#: src/Admin/Settings.php:163
+#: src/Admin/Settings.php:147
 msgid "Percentage of cart"
 msgstr ""
 
-#: src/Admin/Settings.php:164
+#: src/Admin/Settings.php:148
 msgid "Fixed amount"
 msgstr ""
 
-#: src/Admin/Settings.php:170
+#: src/Admin/Settings.php:150
+msgid "Percentage presets scale with the order total (5% of the subtotal). Fixed presets are flat amounts in your store currency."
+msgstr ""
+
+#: src/Admin/Settings.php:155
 msgid "Preset values"
 msgstr ""
 
-#: src/Admin/Settings.php:171
-msgid "Comma-separated values. For percentages use whole numbers (5, 10, 15). For fixed amounts use currency values (2, 5, 10). Blank or non-positive values are dropped."
-msgstr ""
-
-#: src/Admin/Settings.php:175
-msgid "Up to a handful of values keeps the control tidy."
-msgstr ""
-
-#: src/Admin/Settings.php:180
-msgid "Default selection"
-msgstr ""
-
-#: src/Admin/Settings.php:181
-msgid "Which option is pre-selected before the customer chooses. “No tip” keeps tipping fully opt-in (recommended)."
-msgstr ""
-
-#: src/Admin/Settings.php:185
-#: templates/tip-control.php:41
-msgid "No tip"
-msgstr ""
-
-#: src/Admin/Settings.php:196
-msgid "Custom amount"
-msgstr ""
-
-#: src/Admin/Settings.php:197
-msgid "Adds a “Custom” button that reveals a free-form amount field, so generous customers can give more than the presets."
-msgstr ""
-
-#: src/Admin/Settings.php:202
-msgid "Allow customers to enter a custom tip amount."
-msgstr ""
-
-#: src/Admin/Settings.php:211
-msgid "Placement & tax"
-msgstr ""
-
-#: src/Admin/Settings.php:216
-msgid "Show on"
-msgstr ""
-
-#: src/Admin/Settings.php:217
-msgid "Where the control appears. The checkout placement updates live via WooCommerce’s checkout AJAX as the customer chooses."
-msgstr ""
-
-#: src/Admin/Settings.php:222
-msgid "Cart page"
-msgstr ""
-
-#: src/Admin/Settings.php:227
-msgid "Checkout page"
-msgstr ""
-
-#: src/Admin/Settings.php:233
-msgid "Taxable"
-msgstr ""
-
-#: src/Admin/Settings.php:234
-msgid "Most tips and donations are not taxable. Leave this off unless your jurisdiction requires tax on tips."
-msgstr ""
-
-#: src/Admin/Settings.php:239
-msgid "Apply tax to the tip."
-msgstr ""
-
-#: src/Admin/Settings.php:351
-msgid "More information"
+#: src/Admin/Settings.php:159
+msgid "Comma-separated values. For percentages use whole numbers (5, 10, 15); for fixed amounts use currency values (2, 5, 10). Up to a handful keeps the control tidy."
 msgstr ""
 
 #. translators: %s: a whole-number percentage, e.g. 10.
-#: src/Frontend/TipControl.php:119
+#: src/Frontend/TipControl.php:108
 #, php-format
 msgid "%s%%"
 msgstr ""
 
-#: templates/tip-control.php:68
-msgid "Custom"
-msgstr ""
-
-#: templates/tip-control.php:80
-msgid "Enter a custom amount"
+#: templates/tip-control.php:38
+msgid "No tip"
 msgstr ""
 
 #: tipping.php:47

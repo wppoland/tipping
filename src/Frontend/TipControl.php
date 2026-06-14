@@ -11,12 +11,12 @@ use Tipping\Settings\Options;
 defined('ABSPATH') || exit;
 
 /**
- * Renders the customer-facing tip control on the cart and checkout, and enqueues
- * the stylesheet + the small progressive-enhancement script that drives live
- * updates via WooCommerce's checkout AJAX (`update_checkout` / `update_cart`).
+ * Renders the customer-facing tip control on the checkout, and enqueues the
+ * stylesheet + the small progressive-enhancement script that drives live
+ * updates via WooCommerce's checkout AJAX (`update_checkout`).
  *
- * The markup degrades gracefully: without JS the presets and custom field still
- * post, and an empty / disabled / misconfigured state renders nothing at all.
+ * The markup degrades gracefully: without JS the presets still post, and an
+ * empty / disabled / misconfigured state renders nothing at all.
  */
 final class TipControl implements HasHooks
 {
@@ -28,19 +28,12 @@ final class TipControl implements HasHooks
 
     public function registerHooks(): void
     {
-        if ($this->options->showOnCheckout()) {
-            add_action('woocommerce_review_order_before_payment', [$this, 'render']);
-        }
-
-        if ($this->options->showOnCart()) {
-            add_action('woocommerce_cart_totals_before_order_total', [$this, 'render']);
-        }
-
+        add_action('woocommerce_review_order_before_payment', [$this, 'render']);
         add_action('wp_enqueue_scripts', [$this, 'enqueueAssets']);
     }
 
     /**
-     * Load assets only on cart / checkout, only when the control is usable.
+     * Load assets only on the checkout, only when the control is usable.
      */
     public function enqueueAssets(): void
     {
@@ -48,10 +41,7 @@ final class TipControl implements HasHooks
             return;
         }
 
-        $onCart     = function_exists('is_cart') && is_cart() && $this->options->showOnCart();
-        $onCheckout = function_exists('is_checkout') && is_checkout() && $this->options->showOnCheckout();
-
-        if (! $onCart && ! $onCheckout) {
+        if (! function_exists('is_checkout') || ! is_checkout()) {
             return;
         }
 
@@ -100,7 +90,6 @@ final class TipControl implements HasHooks
             'presets'     => $presets,
             'current'     => $current,
             'isPercent'   => $this->options->isPercent(),
-            'allowCustom' => $this->options->allowCustom(),
             'label'       => $this->options->label(),
             'description' => $this->options->description(),
         ];
