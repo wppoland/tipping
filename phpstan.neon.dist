@@ -1,0 +1,18 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - tipping.php
+        - uninstall.php
+        - src
+        - config
+        - templates
+    excludePaths:
+        - vendor/
+    bootstrapFiles:
+        - tests/phpstan/constants.php
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false

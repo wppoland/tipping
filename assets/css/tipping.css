@@ -1,0 +1,135 @@
+/**
+ * Tipping — customer-facing control (cart + checkout).
+ *
+ * Modern, theme-friendly styling driven by custom properties so themes can
+ * override colours and radius. Transitions are guarded by prefers-reduced-motion.
+ * No layout shift: the control reserves its own block and never reflows totals.
+ */
+
+.tipping {
+	--tipping-accent: var(--wp--preset--color--primary, #2563eb);
+	--tipping-accent-contrast: #fff;
+	--tipping-border: rgba(0, 0, 0, 0.14);
+	--tipping-bg: rgba(0, 0, 0, 0.02);
+	--tipping-radius: 10px;
+	--tipping-gap: 0.5rem;
+
+	margin: 1.25rem 0;
+	padding: 1rem 1.125rem;
+	border: 1px solid var(--tipping-border);
+	border-radius: var(--tipping-radius);
+	background: var(--tipping-bg);
+}
+
+.tipping__label {
+	margin: 0 0 0.25rem;
+	font-weight: 600;
+	font-size: 1rem;
+}
+
+.tipping__description {
+	margin: 0 0 0.75rem;
+	font-size: 0.875rem;
+	opacity: 0.8;
+}
+
+.tipping__options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--tipping-gap);
+}
+
+.tipping__option {
+	flex: 0 1 auto;
+	min-width: 3.5rem;
+	padding: 0.5rem 0.9rem;
+	font: inherit;
+	font-weight: 600;
+	line-height: 1.2;
+	color: inherit;
+	background: #fff;
+	border: 1px solid var(--tipping-border);
+	border-radius: 999px;
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.tipping__option:hover {
+	border-color: var(--tipping-accent);
+}
+
+.tipping__option:focus-visible {
+	outline: 2px solid var(--tipping-accent);
+	outline-offset: 2px;
+}
+
+.tipping__option:active {
+	transform: translateY(1px);
+}
+
+.tipping__option.is-active {
+	color: var(--tipping-accent-contrast);
+	background: var(--tipping-accent);
+	border-color: var(--tipping-accent);
+}
+
+.tipping__custom {
+	margin-top: 0.75rem;
+}
+
+.tipping__custom[hidden] {
+	display: none;
+}
+
+.tipping__custom-label {
+	display: block;
+	margin-bottom: 0.25rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+}
+
+.tipping__custom-input {
+	width: 100%;
+	max-width: 12rem;
+	padding: 0.5rem 0.625rem;
+	font: inherit;
+	border: 1px solid var(--tipping-border);
+	border-radius: 8px;
+}
+
+.tipping__custom-input:focus-visible {
+	outline: 2px solid var(--tipping-accent);
+	outline-offset: 1px;
+}
+
+.tipping__status {
+	margin: 0.5rem 0 0;
+	min-height: 1.2em;
+	font-size: 0.8125rem;
+	opacity: 0.85;
+}
+
+.tipping.is-busy {
+	opacity: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.tipping__option {
+		transition: none;
+	}
+
+	.tipping__option:active {
+		transform: none;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.tipping {
+		--tipping-border: rgba(255, 255, 255, 0.18);
+		--tipping-bg: rgba(255, 255, 255, 0.04);
+	}
+
+	.tipping__option {
+		background: rgba(255, 255, 255, 0.06);
+	}
+}
