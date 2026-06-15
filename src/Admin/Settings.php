@@ -24,6 +24,17 @@ final class Settings implements HasHooks
     {
     }
 
+    /**
+     * The settings page / option-group slug.
+     *
+     * Exposed so PRO add-ons can register their own settings against the same
+     * options.php group and render under the same WooCommerce submenu.
+     */
+    public static function pageSlug(): string
+    {
+        return self::PAGE;
+    }
+
     public function registerHooks(): void
     {
         add_action('admin_menu', [$this, 'addMenuPage']);
@@ -162,6 +173,15 @@ final class Settings implements HasHooks
                         </tbody>
                     </table>
                 </div>
+
+                <?php
+                /**
+                 * Fires inside the settings form, after the FREE setting cards and
+                 * before the submit button. PRO add-ons hook here to render their
+                 * own `.tipping-admin__card` sections, which save with this form.
+                 */
+                do_action('tipping/admin_after_cards');
+                ?>
 
                 <?php submit_button(); ?>
             </form>

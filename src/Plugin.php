@@ -49,5 +49,14 @@ final class Plugin
                 $service->registerHooks();
             }
         }
+
+        /**
+         * Fires after the FREE Tipping plugin has fully booted and all of its
+         * services are registered. PRO add-ons listen here to extend the shared
+         * container and register their own hooks.
+         *
+         * @param Plugin $plugin The booted plugin instance.
+         */
+        do_action('tipping/booted', $this);
     }
 }
