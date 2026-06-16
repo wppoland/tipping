@@ -75,17 +75,40 @@ final class TipSelection
         $choice  = $this->current();
         $presets = $this->options->presets();
 
+        $amount = 0.0;
+
         if ('preset' === $choice['mode'] && isset($presets[$choice['preset']])) {
             $value = $presets[$choice['preset']];
 
             if ($this->options->isPercent()) {
-                return $this->roundAmount($this->cartBase() * ($value / 100));
+                $amount = $this->roundAmount($this->cartBase() * ($value / 100));
+            } else {
+                $amount = $this->roundAmount($value);
             }
-
-            return $this->roundAmount($value);
         }
 
-        return 0.0;
+        /**
+         * Filters the resolved tip amount before it is applied as a cart fee.
+         *
+         * PRO add-ons (e.g. round-up tipping) use this to adjust the amount based
+         * on the live cart. The selection service is passed so listeners can read
+         * the cart subtotal without recomputing it.
+         *
+         * @param float        $amount    The resolved tip amount in store currency.
+         * @param TipSelection $selection The selection service.
+         */
+        $amount = (float) apply_filters('tipping/fee_amount', $amount, $this);
+
+        return $this->roundAmount($amount);
+    }
+
+    /**
+     * The pre-tip items subtotal (tax-exclusive) used as the base for percentage
+     * tips and exposed to PRO add-ons via the `tipping/fee_amount` filter.
+     */
+    public function cartSubtotal(): float
+    {
+        return $this->cartBase();
     }
 
     /**
