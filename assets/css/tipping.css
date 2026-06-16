@@ -1,17 +1,27 @@
 /**
  * Tipping — customer-facing control (checkout).
  *
- * Modern, theme-friendly styling driven by custom properties so themes can
- * override colours and radius. Transitions are guarded by prefers-reduced-motion.
- * No layout shift: the control reserves its own block and never reflows totals.
+ * The world here is the tip line on a restaurant check: you write a gratuity
+ * onto the bill. The bold move is exactly that — choosing an amount inks a
+ * hand-drawn underline under it, left to right, like signing the tip line.
+ *
+ * Accent is a warm honey-amber (hospitality / gratuity), grounded in this
+ * plugin's own world rather than a default blue. Everything is driven by
+ * themeable `--tipping-*` tokens with theme-inheriting fallbacks. Transitions
+ * are guarded by prefers-reduced-motion. No layout shift: the underline lives
+ * inside the pill's own border-box and the block never reflows totals.
  */
 
 .tipping {
-	--tipping-accent: var(--wp--preset--color--primary, #2563eb);
-	--tipping-accent-contrast: #fff;
-	--tipping-border: rgba(0, 0, 0, 0.14);
-	--tipping-bg: rgba(0, 0, 0, 0.02);
-	--tipping-radius: 10px;
+	/* Warm honey-amber: the colour of hospitality, not a default blue. */
+	--tipping-accent: var(--wp--preset--color--primary, #b06a13);
+	--tipping-ink: var(--wp--preset--color--primary, #8a4f06);
+	--tipping-accent-soft: rgba(176, 106, 19, 0.12);
+	--tipping-accent-contrast: #fff8ee;
+	--tipping-border: rgba(60, 40, 12, 0.18);
+	--tipping-bg: rgba(176, 106, 19, 0.04);
+	--tipping-pill-bg: #fffdf9;
+	--tipping-radius: 12px;
 	--tipping-gap: 0.5rem;
 
 	margin: 1.25rem 0;
@@ -19,6 +29,7 @@
 	border: 1px solid var(--tipping-border);
 	border-radius: var(--tipping-radius);
 	background: var(--tipping-bg);
+	color: inherit;
 }
 
 .tipping__label {
@@ -40,22 +51,46 @@
 }
 
 .tipping__option {
+	position: relative;
 	flex: 0 1 auto;
 	min-width: 3.5rem;
-	padding: 0.5rem 0.9rem;
+	padding: 0.5rem 0.95rem 0.55rem;
 	font: inherit;
 	font-weight: 600;
 	line-height: 1.2;
 	color: inherit;
-	background: #fff;
+	background: var(--tipping-pill-bg);
 	border: 1px solid var(--tipping-border);
 	border-radius: 999px;
 	cursor: pointer;
-	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+	transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.1s ease;
+}
+
+/*
+ * The tip line. A hand-drawn ink stroke sits under the amount, scaled to zero
+ * width and revealed left-to-right when the amount is chosen — like writing
+ * your gratuity onto the line of a check. It lives inside the pill so there is
+ * no layout shift whether it is drawn or not.
+ */
+.tipping__option--amount::after {
+	content: "";
+	position: absolute;
+	left: 0.95rem;
+	right: 0.95rem;
+	bottom: 0.34rem;
+	height: 2px;
+	border-radius: 2px;
+	background: var(--tipping-ink);
+	/* Slightly uneven cap, as if drawn by hand. */
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+	pointer-events: none;
 }
 
 .tipping__option:hover {
 	border-color: var(--tipping-accent);
+	background: var(--tipping-accent-soft);
 }
 
 .tipping__option:focus-visible {
@@ -68,9 +103,14 @@
 }
 
 .tipping__option.is-active {
-	color: var(--tipping-accent-contrast);
-	background: var(--tipping-accent);
+	color: var(--tipping-ink);
+	background: var(--tipping-accent-soft);
 	border-color: var(--tipping-accent);
+}
+
+/* The signed tip line draws itself in on the chosen amount. */
+.tipping__option--amount.is-active::after {
+	transform: scaleX(1);
 }
 
 .tipping__status {
@@ -89,6 +129,10 @@
 		transition: none;
 	}
 
+	.tipping__option--amount::after {
+		transition: none;
+	}
+
 	.tipping__option:active {
 		transform: none;
 	}
@@ -96,11 +140,16 @@
 
 @media (prefers-color-scheme: dark) {
 	.tipping {
-		--tipping-border: rgba(255, 255, 255, 0.18);
-		--tipping-bg: rgba(255, 255, 255, 0.04);
+		--tipping-accent: var(--wp--preset--color--primary, #e0a85a);
+		--tipping-ink: var(--wp--preset--color--primary, #f0c887);
+		--tipping-accent-soft: rgba(224, 168, 90, 0.16);
+		--tipping-accent-contrast: #1a1206;
+		--tipping-border: rgba(255, 240, 220, 0.2);
+		--tipping-bg: rgba(224, 168, 90, 0.06);
+		--tipping-pill-bg: rgba(255, 250, 240, 0.05);
 	}
 
-	.tipping__option {
-		background: rgba(255, 255, 255, 0.06);
+	.tipping__option.is-active {
+		color: var(--tipping-ink);
 	}
 }
