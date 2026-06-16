@@ -8,13 +8,20 @@
 .tipping-admin {
 	--tipping-card-bg: #fff;
 	--tipping-card-border: #dcdcde;
-	--tipping-accent: #2271b1;
+	/*
+	 * Family accent — the storefront's warm honey-amber, so the admin reads as
+	 * the same plugin. Used only as a non-text rule/edge (a UI element: WCAG AA
+	 * needs 3:1). Amber #b06a13 vs the wp-admin surface is 4.27:1 on #fff and
+	 * 3.75:1 on the #f0f0f1 body — both clear 3:1. Heading TEXT stays WP's
+	 * near-black for full readability; accent text would use #8a4f06 (6.56:1).
+	 */
+	--tipping-accent: #b06a13;
 	--tipping-muted: #50575e;
 	max-width: 840px;
 }
 
 .tipping-admin__intro {
-	margin: 0.5rem 0 1.25rem;
+	margin: 0.5rem 0 1.5rem;
 }
 
 .tipping-admin__intro h2 {
@@ -33,6 +40,8 @@
 	padding: 0.5rem 1.25rem 1rem;
 	background: var(--tipping-card-bg);
 	border: 1px solid var(--tipping-card-border);
+	/* Amber edge ties the card to the storefront; non-text, so 3:1 suffices. */
+	border-left: 3px solid var(--tipping-accent);
 	border-radius: 8px;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
@@ -42,15 +51,44 @@
 	font-size: 1rem;
 }
 
+/* A tiny inline preview of what the customer sees — show, don't just toggle. */
+.tipping-admin__example {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.4rem;
+	margin: 0.4rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.tipping-admin__pill {
+	padding: 0.2rem 0.7rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	line-height: 1.4;
+	color: #8a4f06; /* 6.56:1 on #fff — AA for text. */
+	background: rgba(176, 106, 19, 0.1);
+	border: 1px solid rgba(176, 106, 19, 0.45);
+	border-radius: 999px;
+}
+
 @media (prefers-color-scheme: dark) {
 	.tipping-admin {
 		--tipping-card-bg: #1e1e1e;
 		--tipping-card-border: #3c434a;
-		--tipping-accent: #72aee6;
+		/* Lighter amber on the dark card (#1e1e1e): #e0a85a is 7.0:1 — AA. */
+		--tipping-accent: #e0a85a;
 		--tipping-muted: #bbc8d4;
 	}
 
 	.tipping-admin__card {
 		box-shadow: none;
+	}
+
+	.tipping-admin__pill {
+		color: #f0c887; /* 9.5:1 on #1e1e1e — AA. */
+		background: rgba(224, 168, 90, 0.12);
+		border-color: rgba(224, 168, 90, 0.5);
 	}
 }
