@@ -31,7 +31,7 @@ use Tipping\Frontend\TipControl;
     <div class="tipping__options">
         <button
             type="button"
-            class="tipping__option<?php echo 'none' === $current['mode'] ? ' is-active' : ''; ?>"
+            class="tipping__option tipping__option--none<?php echo 'none' === $current['mode'] ? ' is-active' : ''; ?>"
             data-tipping-mode="none"
             aria-pressed="<?php echo 'none' === $current['mode'] ? 'true' : 'false'; ?>"
         >
@@ -44,7 +44,7 @@ use Tipping\Frontend\TipControl;
             ?>
             <button
                 type="button"
-                class="tipping__option<?php echo $tipping_is_active ? ' is-active' : ''; ?>"
+                class="tipping__option tipping__option--amount<?php echo $tipping_is_active ? ' is-active' : ''; ?>"
                 data-tipping-mode="preset"
                 data-tipping-preset="<?php echo esc_attr((string) (int) $tipping_index); ?>"
                 aria-pressed="<?php echo $tipping_is_active ? 'true' : 'false'; ?>"
