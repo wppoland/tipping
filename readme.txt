@@ -13,30 +13,33 @@ Let customers add an optional tip or donation at checkout — preset amounts, ap
 
 == Description ==
 
-Tipping adds a friendly, optional tip or donation control to your WooCommerce
-checkout. Customers pick a preset amount — a flat figure or a percentage of
-their order — and the tip is added to the order totals as a fee and recorded on
-the order.
+Tipping adds an optional tip or donation control to the WooCommerce checkout.
+Customers pick a preset amount, either a flat figure or a percentage of their
+order, and the tip is added to the order totals as a fee and saved on the order.
 
-The control updates live: choosing an amount recalculates the totals through
-WooCommerce's own checkout AJAX, so customers always see the up-to-date total
-before they pay. Percentage tips track the live subtotal automatically.
+Choosing an amount recalculates the totals through WooCommerce's own checkout
+AJAX, so the figure customers see before they pay always includes the tip.
+Percentage presets are worked out from the current subtotal, so they stay
+correct if the cart changes.
 
-Everything is configured from a single screen under **WooCommerce → Tipping**:
-the label and description shoppers see, whether presets are fixed amounts or
-percentages, and the preset values.
+Everything lives on one screen under **WooCommerce → Tipping**: the label and
+description shoppers see, whether presets are fixed amounts or percentages, and
+the preset values themselves.
+
+The code is on GitHub at https://github.com/wppoland/tipping if you want to read
+it, report a bug or suggest a preset workflow we have missed.
 
 = Features =
 
-* Preset tip amounts — fixed currency values or a percentage of the cart.
-* Applied as a native WooCommerce cart fee, shown in totals and on the order.
-* Live updates on selection via WooCommerce checkout AJAX.
-* Configurable label and description.
-* Fully opt-in: the default selection is "No tip", and tips are never taxed.
-* Graceful: renders nothing when disabled or misconfigured.
-* Accessible: keyboard friendly, focus-visible, ARIA live status, reduced-motion aware.
-* Translation ready (POT included) and clean uninstall.
-* HPOS and cart/checkout blocks compatible.
+* Preset tip amounts: fixed currency values or a percentage of the cart.
+* Applied as a native WooCommerce cart fee, so it shows in totals and on the order.
+* Recalculates as soon as the customer picks an amount, via WooCommerce checkout AJAX.
+* Editable label and description.
+* Opt-in by default: "No tip" is preselected, and tips are added as a non-taxable fee.
+* Renders nothing when tipping is disabled or no presets are set, so the checkout is never cluttered with an empty control.
+* Buttons are keyboard operable, with a visible focus ring, an ARIA live status line and reduced-motion handling.
+* Ships with a POT file for translation and removes its option on uninstall.
+* Declares HPOS compatibility. The control renders on the classic (shortcode) checkout.
 
 == Installation ==
 
