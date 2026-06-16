@@ -158,7 +158,7 @@ final class Settings implements HasHooks
                                         <option value="percent" <?php selected($type, 'percent'); ?>><?php esc_html_e('Percentage of cart', 'tipping'); ?></option>
                                         <option value="fixed" <?php selected($type, 'fixed'); ?>><?php esc_html_e('Fixed amount', 'tipping'); ?></option>
                                     </select>
-                                    <p class="description"><?php esc_html_e('Percentage presets scale with the order total (5% of the subtotal). Fixed presets are flat amounts in your store currency.', 'tipping'); ?></p>
+                                    <p class="description"><?php esc_html_e('Percentage presets scale with the cart: a 5 preset adds 5% of the subtotal, so a larger order means a larger tip. Fixed presets stay the same flat amount in your store currency whatever the cart total.', 'tipping'); ?></p>
                                 </td>
                             </tr>
                             <tr>
@@ -167,7 +167,8 @@ final class Settings implements HasHooks
                                 </th>
                                 <td>
                                     <input type="text" id="tipping_presets" name="<?php echo esc_attr(Options::OPTION); ?>[presets]" value="<?php echo esc_attr(implode(', ', array_map([$this, 'formatNumber'], $presets))); ?>" class="regular-text" placeholder="5, 10, 15" />
-                                    <p class="description"><?php esc_html_e('Comma-separated values. For percentages use whole numbers (5, 10, 15); for fixed amounts use currency values (2, 5, 10). Up to a handful keeps the control tidy.', 'tipping'); ?></p>
+                                    <p class="description"><?php esc_html_e('Comma-separated values. For percentages use whole numbers (5, 10, 15); for fixed amounts use currency values (2, 5, 10). Up to eight are shown; the rest are ignored. Leave empty and the control is hidden until you add at least one.', 'tipping'); ?></p>
+                                    <?php $this->renderPresetPreview($type, $presets); ?>
                                 </td>
                             </tr>
                         </tbody>
@@ -186,6 +187,39 @@ final class Settings implements HasHooks
                 <?php submit_button(); ?>
             </form>
         </div>
+        <?php
+    }
+
+    /**
+     * Render a tiny, non-interactive preview of the preset pills as the customer
+     * will see them — so the merchant can read the effect of their values at a
+     * glance instead of imagining it. Presentation only; no settings are read or
+     * written here beyond the values already passed in.
+     *
+     * @param string      $type    'percent' or 'fixed'.
+     * @param list<float> $presets Cleaned preset values.
+     */
+    private function renderPresetPreview(string $type, array $presets): void
+    {
+        if ([] === $presets) {
+            return;
+        }
+
+        ?>
+        <ul class="tipping-admin__example" aria-label="<?php esc_attr_e('Preview of the tip buttons', 'tipping'); ?>">
+            <?php foreach ($presets as $preset) : ?>
+                <li class="tipping-admin__pill">
+                    <?php
+                    if ('percent' === $type) {
+                        /* translators: %s: a whole-number percentage, e.g. 5. */
+                        echo esc_html(sprintf(__('%s%%', 'tipping'), $this->formatNumber($preset)));
+                    } else {
+                        echo wp_kses_post(wc_price($preset));
+                    }
+                    ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
         <?php
     }
 
