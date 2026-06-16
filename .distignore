@@ -1,5 +1,6 @@
 # Files excluded from the wp.org build. This plugin is self-contained: it has no
 # runtime Composer dependencies, so /vendor is dev-only and excluded from the zip.
+/vendor
 /.git
 /.github
 /.gitignore
