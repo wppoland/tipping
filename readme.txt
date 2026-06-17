@@ -78,6 +78,12 @@ Yes. The default selection is "No tip", keeping it fully opt-in.
 1. The tip control on the checkout page.
 2. The Tipping settings screen under WooCommerce.
 
+== External Services ==
+
+Tipping does not connect to, send data to or load resources from any external service. It runs entirely on your own site.
+
+The customer's tip choice is posted to WordPress's own `admin-ajax.php` on the same origin, then WooCommerce recalculates the checkout totals; no third party is involved. Settings are kept in the `tipping_settings` option (with `tipping_db_version` tracking the schema), and each tip is recorded both as a native WooCommerce cart fee and as the `_tipping_amount` order meta. The plugin does not send any email of its own.
+
 == Changelog ==
 
 = 0.1.0 =
