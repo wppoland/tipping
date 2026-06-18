@@ -1,5 +1,5 @@
 === Tipping - Checkout Tips and Donations for WooCommerce ===
-Contributors: wppoland
+Contributors: motylanogha
 Tags: woocommerce, tips, donations, checkout, gratuity
 Requires at least: 6.5
 Tested up to: 7.0
