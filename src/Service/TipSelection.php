@@ -23,8 +23,10 @@ final class TipSelection
 {
     private const SESSION_KEY = 'tipping_choice';
 
-    public function __construct(private readonly Options $options)
-    {
+    public function __construct(
+        private readonly Options $options,
+        private readonly Recipients $recipients,
+    ) {
     }
 
     /**
@@ -32,7 +34,7 @@ final class TipSelection
      * validating it against the current settings. Unknown / disabled choices
      * collapse to "no tip".
      *
-     * @param array{mode?: string, preset?: int|string} $choice
+     * @param array{mode?: string, preset?: int|string, recipient?: string} $choice
      */
     public function store(array $choice): void
     {
@@ -48,7 +50,7 @@ final class TipSelection
     /**
      * The stored choice, defaulting to "no tip" so tipping is fully opt-in.
      *
-     * @return array{mode: string, preset: int}
+     * @return array{mode: string, preset: int, recipient: string}
      */
     public function current(): array
     {
@@ -59,7 +61,7 @@ final class TipSelection
             }
         }
 
-        return ['mode' => 'none', 'preset' => 0];
+        return ['mode' => 'none', 'preset' => 0, 'recipient' => ''];
     }
 
     /**
@@ -116,10 +118,16 @@ final class TipSelection
      * that does not match the current settings.
      *
      * @param array<string, mixed> $choice
-     * @return array{mode: string, preset: int}
+     * @return array{mode: string, preset: int, recipient: string}
      */
     private function normalize(array $choice): array
     {
+        $recipient = isset($choice['recipient']) ? sanitize_key((string) $choice['recipient']) : '';
+
+        if ('' !== $recipient && ! $this->recipients->isValid($recipient)) {
+            $recipient = '';
+        }
+
         $mode = isset($choice['mode']) ? sanitize_key((string) $choice['mode']) : 'none';
 
         if ('preset' === $mode) {
@@ -127,11 +135,15 @@ final class TipSelection
             $presets = $this->options->presets();
 
             if ($preset >= 0 && isset($presets[$preset])) {
-                return ['mode' => 'preset', 'preset' => $preset];
+                return ['mode' => 'preset', 'preset' => $preset, 'recipient' => $recipient];
             }
         }
 
-        return ['mode' => 'none', 'preset' => 0];
+        if ('none' === $mode) {
+            return ['mode' => 'none', 'preset' => 0, 'recipient' => $recipient];
+        }
+
+        return ['mode' => 'none', 'preset' => 0, 'recipient' => ''];
     }
 
     /**

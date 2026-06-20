@@ -69,7 +69,42 @@
 			} );
 	}
 
+	function currentRecipient( root ) {
+		var select = root.querySelector( '[data-tipping-recipient]' );
+		if ( ! select ) {
+			return '';
+		}
+		return select.value || '';
+	}
+
+	function withRecipient( root, params ) {
+		var recipient = currentRecipient( root );
+		if ( recipient ) {
+			params.recipient = recipient;
+		}
+		return params;
+	}
+
 	function init( root ) {
+		var recipientSelect = root.querySelector( '[data-tipping-recipient]' );
+		if ( recipientSelect ) {
+			recipientSelect.addEventListener( 'change', function () {
+				var active = root.querySelector( '.tipping__option.is-active' );
+				var mode = active ? active.getAttribute( 'data-tipping-mode' ) : 'none';
+				if ( mode === 'preset' ) {
+					send(
+						root,
+						withRecipient( root, {
+							mode: 'preset',
+							preset: active.getAttribute( 'data-tipping-preset' ),
+						} )
+					);
+				} else {
+					send( root, withRecipient( root, { mode: 'none' } ) );
+				}
+			} );
+		}
+
 		root.querySelectorAll( '.tipping__option' ).forEach( function ( btn ) {
 			btn.addEventListener( 'click', function () {
 				var mode = btn.getAttribute( 'data-tipping-mode' );
@@ -77,9 +112,15 @@
 				setActive( root, btn );
 
 				if ( mode === 'preset' ) {
-					send( root, { mode: 'preset', preset: btn.getAttribute( 'data-tipping-preset' ) } );
+					send(
+						root,
+						withRecipient( root, {
+							mode: 'preset',
+							preset: btn.getAttribute( 'data-tipping-preset' ),
+						} )
+					);
 				} else {
-					send( root, { mode: 'none' } );
+					send( root, withRecipient( root, { mode: 'none' } ) );
 				}
 			} );
 		} );

@@ -5,7 +5,7 @@ Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,12 @@ Tipping does not connect to, send data to or load resources from any external se
 The customer's tip choice is posted to WordPress's own `admin-ajax.php` on the same origin, then WooCommerce recalculates the checkout totals; no third party is involved. Settings are kept in the `tipping_settings` option (with `tipping_db_version` tracking the schema), and each tip is recorded both as a native WooCommerce cart fee and as the `_tipping_amount` order meta. The plugin does not send any email of its own.
 
 == Changelog ==
+
+= 0.1.1 =
+* `tipping/recipients` filter for PRO recipient lists (empty by default).
+* Optional `recipient` id in session and AJAX; persisted as `_tipping_recipient` on tipped orders.
+* `tipping/control_before_options` action for PRO UI before preset buttons.
+* Preset index saved as `_tipping_preset` order meta for reporting.
 
 = 0.1.0 =
 * Initial release: preset tips/donations on the checkout, applied as a WooCommerce cart fee with live totals, plus a WooCommerce settings screen.

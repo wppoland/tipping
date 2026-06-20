@@ -9,7 +9,8 @@
  *
  * @var \Tipping\Settings\Options $options
  * @var list<float>              $presets
- * @var array{mode: string, preset: int} $current
+ * @var array{mode: string, preset: int, recipient: string} $current
+ * @var list<array{id: string, label: string}> $recipients
  * @var bool                     $isPercent
  * @var string                   $label
  * @var string                   $description
@@ -27,6 +28,18 @@ use Tipping\Frontend\TipControl;
     <?php if ('' !== $description) : ?>
         <p class="tipping__description"><?php echo esc_html($description); ?></p>
     <?php endif; ?>
+
+    <?php
+    $context = compact('options', 'presets', 'current', 'recipients', 'isPercent', 'label', 'description');
+    /**
+     * Fires before the preset buttons inside the tip control.
+     *
+     * PRO add-ons use this to render recipient or cause selectors.
+     *
+     * @param array<string, mixed> $context Template context passed from TipControl.
+     */
+    do_action('tipping/control_before_options', $context);
+    ?>
 
     <div class="tipping__options">
         <button

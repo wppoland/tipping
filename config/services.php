@@ -12,6 +12,7 @@ use Tipping\Admin\Settings;
 use Tipping\Container;
 use Tipping\Frontend\TipControl;
 use Tipping\Migrator;
+use Tipping\Service\Recipients;
 use Tipping\Service\TipFee;
 use Tipping\Service\TipSelection;
 use Tipping\Settings\Options;
@@ -23,8 +24,11 @@ return static function (Container $c): void {
 
     $c->singleton(Options::class, static fn (): Options => new Options());
 
+    $c->singleton(Recipients::class, static fn (): Recipients => new Recipients());
+
     $c->singleton(TipSelection::class, static fn (Container $c): TipSelection => new TipSelection(
         $c->get(Options::class),
+        $c->get(Recipients::class),
     ));
 
     $c->singleton(TipFee::class, static fn (Container $c): TipFee => new TipFee(
@@ -35,6 +39,7 @@ return static function (Container $c): void {
     $c->singleton(TipControl::class, static fn (Container $c): TipControl => new TipControl(
         $c->get(Options::class),
         $c->get(TipSelection::class),
+        $c->get(Recipients::class),
     ));
 
     // Admin (only needed in wp-admin context).

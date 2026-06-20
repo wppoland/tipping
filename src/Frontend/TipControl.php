@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tipping\Frontend;
 
 use Tipping\Contract\HasHooks;
+use Tipping\Service\Recipients;
 use Tipping\Service\TipSelection;
 use Tipping\Settings\Options;
 
@@ -23,6 +24,7 @@ final class TipControl implements HasHooks
     public function __construct(
         private readonly Options $options,
         private readonly TipSelection $selection,
+        private readonly Recipients $recipients,
     ) {
     }
 
@@ -89,6 +91,7 @@ final class TipControl implements HasHooks
             'options'     => $this->options,
             'presets'     => $presets,
             'current'     => $current,
+            'recipients'  => $this->recipients->all(),
             'isPercent'   => $this->options->isPercent(),
             'label'       => $this->options->label(),
             'description' => $this->options->description(),

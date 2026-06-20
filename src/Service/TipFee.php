@@ -20,6 +20,10 @@ final class TipFee implements HasHooks
     /** Order meta flag marking an order that carried a tip. */
     private const ORDER_META = '_tipping_amount';
 
+    private const ORDER_PRESET_META = '_tipping_preset';
+
+    private const ORDER_RECIPIENT_META = '_tipping_recipient';
+
     public function __construct(
         private readonly Options $options,
         private readonly TipSelection $selection,
@@ -76,6 +80,10 @@ final class TipFee implements HasHooks
             $choice['preset'] = absint(wp_unslash((string) $_POST['preset']));
         }
 
+        if (isset($_POST['recipient'])) {
+            $choice['recipient'] = sanitize_key(wp_unslash((string) $_POST['recipient']));
+        }
+
         $this->selection->store($choice);
 
         wp_send_json_success([
@@ -99,6 +107,16 @@ final class TipFee implements HasHooks
 
         if ($amount > 0.0) {
             $order->update_meta_data(self::ORDER_META, wc_format_decimal($amount));
+
+            $choice = $this->selection->current();
+
+            if ('preset' === $choice['mode']) {
+                $order->update_meta_data(self::ORDER_PRESET_META, (string) $choice['preset']);
+            }
+
+            if ('' !== $choice['recipient']) {
+                $order->update_meta_data(self::ORDER_RECIPIENT_META, $choice['recipient']);
+            }
         }
     }
 
