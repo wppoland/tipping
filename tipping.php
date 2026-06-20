@@ -3,7 +3,7 @@
  * Plugin Name:       Tipping - Checkout Tips and Donations for WooCommerce
  * Plugin URI:        https://plogins.com/tipping/
  * Description:        Let customers add an optional tip or donation at checkout.
- * Version:           0.1.1
+ * Version:           0.1.2
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -24,7 +24,7 @@ namespace Tipping;
 
 defined('ABSPATH') || exit;
 
-const VERSION     = '0.1.1';
+const VERSION     = '0.1.2';
 const PLUGIN_FILE = __FILE__;
 
 define('TIPPING_DIR', plugin_dir_path(__FILE__));

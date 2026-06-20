@@ -64,44 +64,57 @@ final class TipSelection
         return ['mode' => 'none', 'preset' => 0, 'recipient' => ''];
     }
 
-    /**
-     * Resolve the current choice to a concrete, non-negative fee amount in the
-     * store currency, based on the live cart subtotal for percentage tips.
-     */
     public function resolveAmount(): float
+    {
+        return $this->resolveAmountForChoice($this->current(), $this->cartBase());
+    }
+
+    /**
+     * Resolve a validated choice against an explicit subtotal base (cart or order).
+     *
+     * @param array{mode?: string, preset?: int|string, recipient?: string} $choice
+     */
+    public function resolveAmountForChoice(array $choice, float $base): float
     {
         if (! $this->options->isUsable()) {
             return 0.0;
         }
 
-        $choice  = $this->current();
+        $choice  = $this->normalize($choice);
         $presets = $this->options->presets();
-
-        $amount = 0.0;
+        $amount  = 0.0;
 
         if ('preset' === $choice['mode'] && isset($presets[$choice['preset']])) {
             $value = $presets[$choice['preset']];
 
             if ($this->options->isPercent()) {
-                $amount = $this->roundAmount($this->cartBase() * ($value / 100));
+                $amount = $this->roundAmount($base * ($value / 100));
             } else {
                 $amount = $this->roundAmount($value);
             }
         }
 
         /**
-         * Filters the resolved tip amount before it is applied as a cart fee.
-         *
-         * PRO add-ons (e.g. round-up tipping) use this to adjust the amount based
-         * on the live cart. The selection service is passed so listeners can read
-         * the cart subtotal without recomputing it.
+         * Filters the resolved tip amount before it is applied as a fee.
          *
          * @param float        $amount    The resolved tip amount in store currency.
          * @param TipSelection $selection The selection service.
+         * @param float        $base      Subtotal base used for percentage tips.
          */
-        $amount = (float) apply_filters('tipping/fee_amount', $amount, $this);
+        $amount = (float) apply_filters('tipping/fee_amount', $amount, $this, $base);
 
         return $this->roundAmount($amount);
+    }
+
+    /**
+     * Validate a raw choice array against current settings.
+     *
+     * @param array<string, mixed> $choice
+     * @return array{mode: string, preset: int, recipient: string}
+     */
+    public function normalizeChoice(array $choice): array
+    {
+        return $this->normalize($choice);
     }
 
     /**
