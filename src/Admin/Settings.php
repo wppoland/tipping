@@ -102,7 +102,7 @@ final class Settings implements HasHooks
             <div class="tipping-admin__intro">
                 <h2><?php esc_html_e('Let customers add a tip or donation at checkout', 'tipping'); ?></h2>
                 <p>
-                    <?php esc_html_e('A friendly, optional tip control on the checkout. Pick preset amounts — fixed or a percentage of the order — and the tip is added to the order totals as a fee. Updates live as the customer chooses.', 'tipping'); ?>
+                    <?php esc_html_e('A friendly, optional tip control on the checkout. Pick preset amounts (fixed or a percentage of the order) and the tip is added to the order totals as a fee. Updates live as the customer chooses.', 'tipping'); ?>
                 </p>
             </div>
 

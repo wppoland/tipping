@@ -21,7 +21,7 @@ return [
 
     // Customer-facing copy.
     'label'       => 'Add a tip',
-    'description' => 'Support our team — every tip is appreciated. Choose an amount or skip.',
+    'description' => 'Support our team. Every tip is appreciated, so choose an amount or skip.',
 
     // Preset type: 'percent' (of the cart subtotal) or 'fixed' (currency amounts).
     'type' => 'percent',
