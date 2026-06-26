@@ -9,7 +9,7 @@ Stable tag: 0.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Let customers add an optional tip or donation at checkout — preset amounts, applied to the order total and updated live.
+Let customers add an optional tip or donation at checkout: preset amounts, applied to the order total and updated live.
 
 == Description ==
 
