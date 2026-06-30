@@ -61,7 +61,7 @@ final class Options
     {
         $label = trim((string) ($this->all()['label'] ?? ''));
 
-        return '' !== $label ? $label : __('Add a tip', 'tipping');
+        return '' !== $label ? $label : __('Add a tip', 'plogins-tipping');
     }
 
     public function description(): string

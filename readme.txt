@@ -1,11 +1,11 @@
-=== Tipping - Checkout Tips and Donations for WooCommerce ===
+=== Plogins Tipping for WooCommerce ===
 Contributors: motylanogha
 Tags: woocommerce, tips, donations, checkout, gratuity
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 8.1
 Requires Plugins: woocommerce
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,16 +26,15 @@ Everything lives on one screen under **WooCommerce → Tipping**: the label and
 description shoppers see, whether presets are fixed amounts or percentages, and
 the preset values themselves.
 
-The code is on GitHub at https://github.com/wppoland/tipping if you want to read
+The code is on GitHub at https://github.com/wppoland/plogins-tipping if you want to read
 it, report a bug or suggest a preset workflow we have missed.
 
 = Documentation and links =
 
-* **Documentation** - https://plogins.com/tipping/docs/
-* **Plugin page** - https://plogins.com/tipping/
-* **Source code** - https://github.com/wppoland/tipping
-* **Bug reports and feature requests** - https://github.com/wppoland/tipping/issues
-* **Discussions and questions** - https://github.com/wppoland/tipping/discussions
+* **Documentation** - https://plogins.com/plogins-tipping/docs/
+* **Plugin page** - https://plogins.com/plogins-tipping/
+* **Source code** - https://github.com/wppoland/plogins-tipping
+* **Bug reports and feature requests** - https://github.com/wppoland/plogins-tipping/issues
 
 
 = Features =
@@ -52,7 +51,7 @@ it, report a bug or suggest a preset workflow we have missed.
 
 == Installation ==
 
-1. Upload the plugin to `/wp-content/plugins/tipping`, or install via Plugins → Add New.
+1. Upload the plugin to `/wp-content/plugins/plogins-tipping`, or install via Plugins → Add New.
 2. Activate it. WooCommerce must be installed and active.
 3. Go to **WooCommerce → Tipping**, enable tipping and set your presets.
 
@@ -94,6 +93,9 @@ Tipping does not connect to, send data to or load resources from any external se
 The customer's tip choice is posted to WordPress's own `admin-ajax.php` on the same origin, then WooCommerce recalculates the checkout totals; no third party is involved. Settings are kept in the `tipping_settings` option (with `tipping_db_version` tracking the schema), and each tip is recorded both as a native WooCommerce cart fee and as the `_tipping_amount` order meta. The plugin does not send any email of its own.
 
 == Changelog ==
+
+= 0.1.3 =
+* Renamed to Plogins Tipping for WooCommerce for a more distinctive plugin name.
 
 = 0.1.2 =
 * `TipSelection::resolveAmountForChoice()` and optional `$base` argument on `tipping/fee_amount` for order-based tip resolution.

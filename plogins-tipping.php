@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name:       Tipping - Checkout Tips and Donations for WooCommerce
- * Plugin URI:        https://plogins.com/tipping/
+ * Plugin Name:       Plogins Tipping for WooCommerce
+ * Plugin URI:        https://plogins.com/plogins-tipping/
  * Description:        Let customers add an optional tip or donation at checkout.
- * Version:           0.1.2
+ * Version:           0.1.3
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -11,7 +11,7 @@
  * Author URI:        https://wppoland.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       tipping
+ * Text Domain:       plogins-tipping
  * Domain Path:       /languages
  * WC requires at least: 8.0
  *
@@ -24,7 +24,7 @@ namespace Tipping;
 
 defined('ABSPATH') || exit;
 
-const VERSION     = '0.1.2';
+const VERSION     = '0.1.3';
 const PLUGIN_FILE = __FILE__;
 
 define('TIPPING_DIR', plugin_dir_path(__FILE__));
@@ -44,7 +44,7 @@ add_action('plugins_loaded', static function (): void {
     if (! class_exists('WooCommerce')) {
         add_action('admin_notices', static function (): void {
             echo '<div class="notice notice-error"><p>';
-            echo esc_html__('Tipping - Checkout Tips and Donations for WooCommerce requires WooCommerce to be active.', 'tipping');
+            echo esc_html__('Tipping - Checkout Tips and Donations for WooCommerce requires WooCommerce to be active.', 'plogins-tipping');
             echo '</p></div>';
         });
         return;

@@ -48,7 +48,7 @@ use Tipping\Frontend\TipControl;
             data-tipping-mode="none"
             aria-pressed="<?php echo 'none' === $current['mode'] ? 'true' : 'false'; ?>"
         >
-            <?php esc_html_e('No tip', 'tipping'); ?>
+            <?php esc_html_e('No tip', 'plogins-tipping'); ?>
         </button>
 
         <?php foreach ($presets as $tipping_index => $tipping_value) : ?>

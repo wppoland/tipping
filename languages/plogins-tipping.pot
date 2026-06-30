@@ -12,7 +12,7 @@ msgstr ""
 "POT-Creation-Date: 2026-06-16T20:24:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: tipping\n"
+"X-Domain: plogins-tipping\n"
 
 #. Plugin Name of the plugin
 #: tipping.php

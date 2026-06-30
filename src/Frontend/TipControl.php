@@ -108,7 +108,7 @@ final class TipControl implements HasHooks
     {
         if ($isPercent) {
             /* translators: %s: a whole-number percentage, e.g. 10. */
-            return sprintf(__('%s%%', 'tipping'), (string) (int) round($value));
+            return sprintf(__('%s%%', 'plogins-tipping'), (string) (int) round($value));
         }
 
         return wp_strip_all_tags(wc_price($value));
